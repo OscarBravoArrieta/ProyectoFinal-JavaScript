@@ -69,8 +69,23 @@ function processEvent(e){
 					yValor = display.textContent;
 				}
 			}
-			resultado = efectuarOperacion(xValor, yValor, operador);
-			display.textContent = resultado.toString().substr(0,8);
+			switch(operador){
+				case('+'):
+					resultado = sumar(xValor, yValor);
+					break;
+				case('-'):
+					resultado = restar(xValor, yValor);
+					break;
+				case('*'):
+					resultado = multiplicar(xValor, yValor);
+					break;
+				case('/'):
+					resultado = dividir(xValor, yValor);
+					break;
+			}
+			console.log("Operación: " + xValor + " " + operador + 	" " + yValor + " = " + resultado);
+            display.textContent = resultado.toString().substr(0,8);
+
 		}
    } //Fin Controlar la longitud de 8 caracteres
    if (this.id == 'on') { // Valida si se hace click en ON y borra el contenido del display
@@ -85,28 +100,41 @@ function processEvent(e){
    ultimaTecla = this.id;//Captura la ultima tecla en la que se hizo clic, para mas tarde averiguar si corresponde al signo de igual
 }
 
-function efectuarOperacion(xValor, yValor, operador){
-    var resultado = '0'
-	switch(operador){
-		case('+'):
-			resultado = parseFloat(xValor) + parseFloat(yValor);
-			break;
-		case('-'):
-			resultado = parseFloat(xValor) - parseFloat(yValor);
-			break;
-		case('*'):
-			resultado = parseFloat(xValor) * parseFloat(yValor);
-			break;
-		case('/'):
-			resultado = parseFloat(xValor) / parseFloat(yValor);
-			break;
-	}
-	console.log("Operación: " + xValor + " " + operador + 	" " + yValor + " = " + resultado);
-	return(resultado);
+function sumar(n1, n2){
+	return(parseFloat(n1) + parseFloat(n2));
 }
+function restar(n1, n2){
+	return(parseFloat(n1) - parseFloat(n2));
+}
+function multiplicar(n1, n2){
+	return(parseFloat(n1) * parseFloat(n2));
+}
+function dividir(n1, n2){
+	return(parseFloat(n1) / parseFloat(n2));
+}
+
+function efectoClic(elemento){
+  elemento.style.width = "18%";
+}
+
 var Calculadora = {
 	init: function(){
-		/*alert('Prueba' + xValor);*/
+		this.eventoSumar();
+		this.eventoRestar();
+		this.eventoMultiplicar();
+		this.eventoDividir();
 	},
+	eventoSumar: function(){
+		sumar(n1, n2);
+	},
+	eventoRestar: function(){
+		restar(n1, n2);
+	},
+	eventoMultiplicar: function(){
+		multiplicar(n1, n2);
+	},
+	eventoDividir: function(){
+		dividir(n1, n2);
+	}
 }
 Calculadora.init();
