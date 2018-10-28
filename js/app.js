@@ -1,17 +1,27 @@
-var elementos = document.getElementsByTagName('img'); //Guarda en una matriz todos los elementos img
-for (var i = 0; i < elementos.length; i++) {
-	elementos[i].addEventListener("click", processEvent, false); //Agrega un listener a cada alemento de la matriz
+var elementos = document.getElementsByTagName('img'); //Guarda en una matriz todos los elementos img, es decir, todas las teclas
+for (var i = 0; i < elementos.length; i++) { // Ciclo for para recorrer  la matriz y agregar los listener a cada elemento
+		elementos[i].addEventListener("mousedown", function(event) { //Agrega un listener a cada elemento para disminuir su escala al hacer mouseDown
+			this.style.MozTransform = 'scale(0.8,0.8)';
+			this.style.WebkitTransform = 'scale(0.8,0.8)';
+			this.style.msTransform = 'scale(0.8,0.8)';
+			this.style.transform = 'scale(0.8,0.8)';
+		});
+		elementos[i].addEventListener("mouseup", function(event) { //Agrega un listener a cada elemento para disminuir su escala al hacer mouseUp
+			this.style.MozTransform = 'scale(1,1)';
+			this.style.WebkitTransform = 'scale(1,1)';
+			this.style.msTransform = 'scale(1,1)';
+			this.style.transform = 'scale(1,1)';
+		});
+		elementos[i].addEventListener("click", processEvent, false); //Agrega un listener a cada alemento de la matriz para ir guardando cada elemento al que se le hace clic
 }
-
 var xValor = '0'; //Primero operando
 var yValor = '0'; //Segundo operando
 var operador = ''; //Signo de la operación matemática
-var	resultado = 'vInicial' //Almacenar el resultado
+var	resultado = '0' //Almacenar el resultado
 var ultimaTecla = ''; //Guarda la última tecla en la que se hace clic
 
 function processEvent(e){
 	console.log(this.id); //Imprime el resultado en la consola. Solo para hacer verificadiones
-
 	if (display.textContent.length < 8){ // Controlar que no se muestren mas de 8 caracteres
 		if (this.id >= 0 && this.id <= 9){//Evalua si la tecla en la que se hace clic es un dígito
 			if(display.textContent == '0'){
@@ -58,7 +68,7 @@ function processEvent(e){
 			display.textContent = '0';
 		}
 		if (this.id == 'igual') { //valida cuando se hace clic en raiz
-			if (resultado == 'vInicial') { //Es la primera operacion
+			if (resultado === '0' ) { //Es la primera operacion
 				yValor = display.textContent;
 			}
 			else{
@@ -83,7 +93,7 @@ function processEvent(e){
 					resultado = dividir(xValor, yValor);
 					break;
 			}
-			console.log("Operación: " + xValor + " " + operador + 	" " + yValor + " = " + resultado);
+			console.log("Operación: " + xValor + " " + operador + 	" " + yValor + " = " + resultado);  // Mustra la operacion en la consola
             display.textContent = resultado.toString().substr(0,8);
 
 		}
@@ -113,27 +123,24 @@ function dividir(n1, n2){
 	return(parseFloat(n1) / parseFloat(n2));
 }
 
-function efectoClic(elemento){
-  elemento.style.width = "18%";
-}
-
 var Calculadora = {
 	init: function(){
+
 		this.eventoSumar();
 		this.eventoRestar();
 		this.eventoMultiplicar();
 		this.eventoDividir();
 	},
-	eventoSumar: function(){
+	eventoSumar: function(n1, n2){
 		sumar(n1, n2);
 	},
-	eventoRestar: function(){
+	eventoRestar: function(n1, n2){
 		restar(n1, n2);
 	},
-	eventoMultiplicar: function(){
+	eventoMultiplicar: function(n1, n2){
 		multiplicar(n1, n2);
 	},
-	eventoDividir: function(){
+	eventoDividir: function(n1, n2){
 		dividir(n1, n2);
 	}
 }
